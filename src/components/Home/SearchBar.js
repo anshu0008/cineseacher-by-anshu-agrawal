@@ -3,9 +3,7 @@ import React from "react";
 import { Search } from "neetoicons";
 import { Input } from "neetoui";
 
-const SearchBar = () => (
-  // const [searchKey, setSearchKey] = useState("");
-
+const SearchBar = ({ searchKey, setSearchKey }) => (
   // eslint-disable-next-line react/jsx-filename-extension
   <div>
     <Input
@@ -13,8 +11,8 @@ const SearchBar = () => (
       placeholder="Search Pictures"
       prefix={<Search />}
       type="search"
-      // value={searchKey}
-      // onChange={event => handleChange(event.target.value)}
+      value={searchKey}
+      onChange={event => setSearchKey(event.target.value)}
     />
   </div>
 );
