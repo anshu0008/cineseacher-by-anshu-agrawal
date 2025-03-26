@@ -10,11 +10,9 @@ export const useMovieFetch = params =>
     enabled: !!params.s,
   });
 
-export const useShowProduct = slug =>
-  useQuery(
-    {
-      queryKey: [QUERY_KEYS.MOVIES, slug],
-      queryFn: () => moviesApi.show(slug),
-    },
-    { enabled: !!slug }
-  );
+export const useMovieDetails = id =>
+  useQuery({
+    queryKey: [QUERY_KEYS.MOVIES_DETAILS, id],
+    queryFn: () => moviesApi.showDetails(id),
+    enabled: !!id.i,
+  });
