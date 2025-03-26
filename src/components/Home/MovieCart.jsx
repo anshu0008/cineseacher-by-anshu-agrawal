@@ -1,6 +1,6 @@
 import React from "react";
 
-const MovieCart = ({ Title, Year, Poster, imdbID, handleDetails }) => {
+const MovieCart = ({ Title, Year, Poster, imdbID, handleModal }) => {
   if (Poster === "N/A") {
     Poster =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1QPzpt3U-jYLjNDy69hSRmg-MNcqGWkDkQ&s";
@@ -20,7 +20,7 @@ const MovieCart = ({ Title, Year, Poster, imdbID, handleDetails }) => {
         <button
           className="rounded px-4 py-2 text-blue-600 hover:bg-gray-100"
           onClick={() => {
-            handleDetails(imdbID);
+            handleModal(imdbID);
           }}
         >
           View Details
