@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
-const MovieCart = ({ Title, Year, Poster, imdbID, handleModal }) => {
+import useHistoryItemsStore from "stores/useHistoryItemsStore";
+//import { shallow } from "zustand/shallow";
+
+import MovieDetailsPage from "./MovieDetailsPage";
+
+const MovieCart = ({ Title, Year, Poster, imdbID }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   if (Poster === "N/A") {
     Poster =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1QPzpt3U-jYLjNDy69hSRmg-MNcqGWkDkQ&s";
   }
+
+  const { toggleIsInCart } = useHistoryItemsStore();
+
+  const handleClick = () => {
+    setIsModalVisible(true);
+    toggleIsInCart(Title);
+  };
 
   return (
     <div
@@ -19,13 +32,12 @@ const MovieCart = ({ Title, Year, Poster, imdbID, handleModal }) => {
         <p className="text-gray-400">Movie . {Year}</p>
         <button
           className="rounded px-4 py-2 text-blue-600 hover:bg-gray-100"
-          onClick={() => {
-            handleModal(imdbID);
-          }}
+          onClick={handleClick}
         >
           View Details
         </button>
       </div>
+      <MovieDetailsPage {...{ isModalVisible, imdbID, setIsModalVisible }} />
     </div>
   );
 };

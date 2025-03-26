@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const showDetails = id => axios.get("/", { id });
+const showDetails = params => axios.get("/", { params });
 
 const fetchList = params => axios.get("/", { params });
 
