@@ -14,5 +14,5 @@ export const useMovieDetails = id =>
   useQuery({
     queryKey: [QUERY_KEYS.MOVIES_DETAILS, id],
     queryFn: () => moviesApi.showDetails(id),
-    enabled: !!id.i,
+    enabled: !!id,
   });
