@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
-//import { shallow } from "zustand/shallow";
 
-import MovieDetailsPage from "./MovieDetailsPage";
+import MovieDetailsPage from "../MovieDetails/MovieDetailsPage";
 
 const MovieCart = ({ Title, Year, Poster, imdbID }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   if (Poster === "N/A") {
     Poster =
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1QPzpt3U-jYLjNDy69hSRmg-MNcqGWkDkQ&s";
   }
 
-  const { toggleIsInCart } = useHistoryItemsStore();
+  const { pushToCart } = useHistoryItemsStore();
 
   const handleClick = () => {
     setIsModalVisible(true);
-    toggleIsInCart(Title);
+    pushToCart(Title);
   };
 
   return (

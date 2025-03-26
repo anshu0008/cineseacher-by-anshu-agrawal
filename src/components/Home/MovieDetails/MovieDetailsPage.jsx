@@ -1,8 +1,8 @@
 import React from "react";
 
+import SpinnerComponent from "components/Home/common/SpinnerComponent";
 import { useMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Modal, Typography } from "neetoui";
-import SpinnerComponent from "src/common/SpinnerComponent";
 
 const MovieDetails = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const { data, isLoading } = useMovieDetails({ i: imdbID });

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 const useHistoryItemsStore = create(set => ({
   historyCart: [],
-  toggleIsInCart: Title =>
+  pushToCart: Title =>
     set(({ historyCart }) => {
       if (historyCart.includes(Title)) {
         return {};

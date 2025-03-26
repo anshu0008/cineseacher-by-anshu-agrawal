@@ -3,18 +3,15 @@ import axios from "axios";
 import { t } from "i18next";
 import { Toastr } from "neetoui";
 
-const shouldShowToastr = response =>
-  typeof response === "object" && response?.noticeCode;
-
-const showSuccessToastr = response => {
-  if (shouldShowToastr(response.data)) Toastr.success(response.data);
+const checkForSuccess = response => {
+  if (response.data.Response === "False") Toastr.error(response.data.Error);
 };
 
 const showErrorToastr = error => {
   if (error.message === t("error.networkError")) {
     Toastr.error(t("error.noInternetConnection"));
   } else if (error.response?.status !== 404) {
-    Toastr.error(error);
+    Toastr.error(error, { autoClose: 3000 });
   }
 };
 
@@ -26,7 +23,7 @@ const responseInterceptors = () => {
   axios.interceptors.response.use(
     response => {
       transformResponseKeysToCamelCase(response);
-      showSuccessToastr(response);
+      checkForSuccess(response);
 
       return response.data;
     },
