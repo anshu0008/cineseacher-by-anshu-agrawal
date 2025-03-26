@@ -5,6 +5,7 @@ import { useMovieFetch } from "hooks/reactQuery/useMoviesApi";
 import useFuncDebounce from "hooks/useFuncDebounce";
 import { isEmpty } from "ramda";
 
+import HistoryContainer from "./HistoryContainer";
 import MovieDetailsPage from "./MovieDetailsPage";
 import Movies from "./Movies";
 import SearchBar from "./SearchBar";
@@ -53,15 +54,22 @@ const Home = () => {
   }, [Search]);
 
   return (
-    <div className="p-4">
-      <SearchBar searchKey={searchKey} setSearchKey={setSearchKey} />
-      <Movies data={data} handleModal={handleModal} />
-      {modalVisible && !isEmpty(movieDetails) && (
-        <MovieDetailsPage
-          handleModal={handleModal}
-          movieDetails={movieDetails}
-        />
-      )}
+    <div className="flex h-screen overflow-hidden p-4">
+      <div className="flex w-3/4 flex-col">
+        <SearchBar searchKey={searchKey} setSearchKey={setSearchKey} />
+        <Movies data={data} handleModal={handleModal} />
+        {modalVisible && !isEmpty(movieDetails) && (
+          <MovieDetailsPage
+            handleModal={handleModal}
+            movieDetails={movieDetails}
+          />
+        )}
+      </div>
+      <div className="ml-10 flex h-full w-1/4 flex-col overflow-hidden border-l-2 border-gray-300 p-4">
+        <div className="flex-1 overflow-y-auto">
+          <HistoryContainer />
+        </div>
+      </div>
     </div>
   );
 };
