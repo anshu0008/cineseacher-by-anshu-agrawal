@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 
-const useFuncDebounce = value => {
-  // eslint-disable-next-line react/hook-use-state
-  const [debounsedValue, setDebouncedValue] = useState(value);
+const useFuncDebounce = func => {
+  const timer = useRef(null);
+  const debouncedFunc = (...args) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => func(...args), 350);
+  };
 
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedValue(value), 350);
-
-    return () => clearTimeout(timer);
-  });
-
-  return debounsedValue;
+  return debouncedFunc;
 };
 
 export default useFuncDebounce;

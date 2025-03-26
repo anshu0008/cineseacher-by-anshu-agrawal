@@ -3,13 +3,13 @@ import React, { useEffect, useRef } from "react";
 import { Search } from "neetoicons";
 import { Input } from "neetoui";
 
-const SearchBar = ({ searchKey, setSearchKey, setCurrentPage }) => {
+const SearchBar = ({ searchKey, updateQueryParams, setSearchKey }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
     const handleKeyPress = event => {
       if (event.key === "/") {
-        event.preventDefault(); // Prevent default browser search
+        event.preventDefault();
         inputRef.current?.focus();
       }
     };
@@ -18,11 +18,6 @@ const SearchBar = ({ searchKey, setSearchKey, setCurrentPage }) => {
 
     return () => document.removeEventListener("keydown", handleKeyPress);
   }, []);
-
-  const handleChange = value => {
-    setCurrentPage(1);
-    setSearchKey(value);
-  };
 
   return (
     <div>
@@ -33,7 +28,10 @@ const SearchBar = ({ searchKey, setSearchKey, setCurrentPage }) => {
         ref={inputRef}
         type="search"
         value={searchKey}
-        onChange={event => handleChange(event.target.value)}
+        onChange={e => {
+          updateQueryParams(e.target.value);
+          setSearchKey(e.target.value);
+        }}
       />
     </div>
   );
