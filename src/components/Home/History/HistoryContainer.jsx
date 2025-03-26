@@ -1,4 +1,4 @@
-import NoMovies from "src/common/NoMovies";
+import NoMovies from "components/Home/common/NoMovies";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
 const HistoryContainer = () => {
