@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import SpinnerComponent from "components/Home/common/SpinnerComponent";
+import SpinnerComponent from "components/common/SpinnerComponent";
 import { useMovieFetch } from "hooks/reactQuery/useMoviesApi";
-import useDebounce from "hooks/useDebounce";
 import useFuncDebounce from "hooks/useFuncDebounce";
 import useQueryParams from "hooks/useQueryParams";
 import { filterNonNull } from "neetocist";
@@ -12,9 +11,9 @@ import { useHistory } from "react-router-dom";
 import { buildUrl } from "utils/url";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constant";
-import HistoryContainer from "./History/HistoryContainer";
-import Movies from "./Movie/Movies";
-import SearchBar from "./SearchBar";
+import HistoryContainer from "./History";
+import Movies from "./Movie";
+import SearchBar from "./Search/SearchBar";
 
 const Home = () => {
   const history = useHistory();
@@ -22,17 +21,18 @@ const Home = () => {
   const { page, pageSize, searchTerm = "" } = useQueryParams();
 
   const [searchKey, setSearchKey] = useState(searchTerm || "");
+
   const [data, setData] = useState([]);
-  const debouncedSearchKey = useDebounce(searchKey);
+
   const { data: { Search, totalResults } = {}, isFetching } = useMovieFetch({
-    s: debouncedSearchKey,
+    s: searchTerm,
     page: Number(page) || DEFAULT_PAGE_INDEX,
     pageSize: Number(pageSize) || DEFAULT_PAGE_SIZE,
   });
 
   const handlePageNavigation = page =>
     history.replace(
-      buildUrl("/", {
+      buildUrl("/movies", {
         page,
         pageSize: DEFAULT_PAGE_SIZE,
         searchTerm: searchKey,
@@ -47,21 +47,20 @@ const Home = () => {
     };
 
     if (value.length > 0) {
-      history.replace(buildUrl("/", filterNonNull(params)));
+      history.replace(buildUrl("/movies", filterNonNull(params)));
     } else {
-      history.replace(buildUrl("/"));
+      history.replace(buildUrl("/movies"));
       setData(null);
     }
   });
 
   useEffect(() => {
     setData(Search || []);
-    console.log(page, pageSize);
   }, [Search]);
 
   return (
-    <div className="flex h-screen p-4">
-      <div className="flex h-full w-3/4 flex-col">
+    <div className="flex h-full bg-gray-50">
+      <div className="flex h-full w-3/4 flex-col p-4">
         <SearchBar
           searchKey={searchKey}
           setSearchKey={setSearchKey}
@@ -83,8 +82,8 @@ const Home = () => {
           </>
         )}
       </div>
-      <div className="ml-10 flex h-full w-1/4 flex-col overflow-hidden border-l-2 border-gray-300 p-4">
-        <div className="flex-1 overflow-y-auto">
+      <div className="ml-10 flex h-5/6 w-1/4 flex-col overflow-hidden border-l-2 border-gray-300">
+        <div className="overflow-y-auto">
           <HistoryContainer />
         </div>
       </div>

@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/order
 import React from "react";
+
 import { Spinner } from "neetoui";
 
 const SpinnerComponent = () => (
