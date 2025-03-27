@@ -10,7 +10,6 @@ const MovieCart = ({ Title, Year, Poster, imdbID }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const poster = fallbackImage(Poster);
-  console.log("poster", poster);
   const { pushToCart } = useHistoryItemsStore();
 
   const handleClick = () => {
