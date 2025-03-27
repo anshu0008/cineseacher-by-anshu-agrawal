@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 
+import { Button } from "neetoui";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
-import MovieDetailsPage from "../MovieDetails/MovieDetailsPage";
+import Details from "./Details";
+import { fallbackImage } from "./utils";
 
 const MovieCart = ({ Title, Year, Poster, imdbID }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  if (Poster === "N/A") {
-    Poster =
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1QPzpt3U-jYLjNDy69hSRmg-MNcqGWkDkQ&s";
-  }
-
+  const poster = fallbackImage(Poster);
+  console.log("poster", poster);
   const { pushToCart } = useHistoryItemsStore();
 
   const handleClick = () => {
@@ -25,19 +24,20 @@ const MovieCart = ({ Title, Year, Poster, imdbID }) => {
       key={imdbID}
     >
       <div className="flex items-start justify-center">
-        <img alt="movie" className="max-h-32 w-auto" src={Poster} />
+        <img alt="movie" className="max-h-32 w-auto" src={poster} />
       </div>
       <div className="m-3 flex flex-col items-start gap-1">
         <h2 className="text-lg font-bold">{Title}</h2>
         <p className="text-gray-400">Movie . {Year}</p>
-        <button
-          className="rounded px-4 py-2 text-blue-600 hover:bg-gray-100"
+        <Button
+          className="rounded bg-gray-100 px-4 py-2 text-blue-600"
+          style="text"
           onClick={handleClick}
         >
           View Details
-        </button>
+        </Button>
       </div>
-      <MovieDetailsPage {...{ isModalVisible, imdbID, setIsModalVisible }} />
+      <Details {...{ isModalVisible, imdbID, setIsModalVisible }} />
     </div>
   );
 };

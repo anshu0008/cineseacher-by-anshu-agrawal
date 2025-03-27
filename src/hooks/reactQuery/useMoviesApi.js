@@ -1,7 +1,7 @@
 import moviesApi from "apis/movies";
 import { useQuery } from "react-query";
 
-import { QUERY_KEYS } from "./constant";
+import { QUERY_KEYS } from "../../constants/query";
 
 export const useMovieFetch = params =>
   useQuery({
@@ -10,7 +10,7 @@ export const useMovieFetch = params =>
     enabled: !!params.s,
   });
 
-export const useMovieDetails = id =>
+export const useShowMovieDetails = id =>
   useQuery({
     queryKey: [QUERY_KEYS.MOVIES_DETAILS, id],
     queryFn: () => moviesApi.showDetails(id),

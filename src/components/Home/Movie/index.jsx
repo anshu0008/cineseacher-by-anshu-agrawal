@@ -1,11 +1,11 @@
 import React from "react";
 
-import NoMovies from "components/Home/common/NoMovies";
+import NoMovies from "components/common/ShowEmptyData";
 
-import MovieCart from "./MovieCart";
+import MovieCart from "./Cart";
 
 const Movies = ({ data }) => (
-  <div className="mt-6 h-5/6 overflow-y-auto p-4">
+  <div className="h-70 overflow-y-auto">
     {data?.length === 0 ? (
       <NoMovies title="No movies to show" />
     ) : (

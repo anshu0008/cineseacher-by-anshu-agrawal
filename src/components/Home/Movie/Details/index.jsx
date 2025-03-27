@@ -1,11 +1,12 @@
 import React from "react";
 
-import SpinnerComponent from "components/Home/common/SpinnerComponent";
-import { useMovieDetails } from "hooks/reactQuery/useMoviesApi";
-import { Modal, Typography } from "neetoui";
+import SpinnerComponent from "components/common/SpinnerComponent";
+import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
+import { Rating, RatingFilled } from "neetoicons";
+import { Button, Modal, Typography } from "neetoui";
 
-const MovieDetails = ({ imdbID, setIsModalVisible, isModalVisible }) => {
-  const { data, isLoading } = useMovieDetails({ i: imdbID });
+const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
+  const { data, isLoading } = useShowMovieDetails({ i: imdbID });
   const {
     Title,
     Poster,
@@ -20,6 +21,8 @@ const MovieDetails = ({ imdbID, setIsModalVisible, isModalVisible }) => {
     Genre,
   } = data || {};
   const genre = Genre?.split(",") || [];
+
+  const [isFavorite, setIsFavorite] = React.useState(false);
 
   return (
     <Modal
@@ -45,7 +48,22 @@ const MovieDetails = ({ imdbID, setIsModalVisible, isModalVisible }) => {
               </span>
             }
           >
-            <Typography style="h2">{Title}</Typography>
+            <div className="flex w-full items-center justify-start gap-2">
+              <Typography style="h2">{Title}</Typography>
+              <Button
+                icon={isFavorite ? RatingFilled : Rating}
+                iconSize={30}
+                size="large"
+                style="icon"
+                tooltipProps={{
+                  content: isFavorite
+                    ? "Remove from Favorite"
+                    : "Add to Favorites",
+                  position: "right",
+                }}
+                onClick={() => setIsFavorite(!isFavorite)}
+              />
+            </div>
           </Modal.Header>
           <Modal.Body className="space-y-4">
             <div className="grid grid-cols-12 gap-6">
@@ -95,4 +113,4 @@ const MovieDetails = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   );
 };
 
-export default MovieDetails;
+export default Details;
