@@ -5,9 +5,7 @@ const useFavoriteItemsStore = create(set => ({
 
   toggleFromCart: (Title, Ratings, imdbID) =>
     set(({ favoriteCart }) => {
-      const itemExists = favoriteCart.some(
-        item => item.Title === Title && item.Ratings === Ratings
-      );
+      const itemExists = favoriteCart.some(item => item.imdbID === imdbID);
 
       return {
         favoriteCart: itemExists
