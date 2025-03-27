@@ -1,19 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import { useSearchOnFocus } from "hooks/searchOnFocus";
-import { Search } from "neetoicons";
+import { Filter, Search } from "neetoicons";
 import { Input } from "neetoui";
 
-// import FilterDialog from "./FilterDialog";
+import FilterDialog from "./FilterDialog";
 
 const SearchBar = ({ searchKey, updateQueryParams, setSearchKey }) => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const inputRef = useRef(null);
   useSearchOnFocus({ inputRef });
 
   return (
-    // <div className="mb-4 flex">
     <div className="mb-8 flex items-center justify-between gap-4">
       <Input
         className="w-full border-gray-300"
@@ -27,7 +26,7 @@ const SearchBar = ({ searchKey, updateQueryParams, setSearchKey }) => {
           setSearchKey(e.target.value);
         }}
       />
-      {/* <div className="relative z-10 flex flex-col items-start justify-end">
+      <div className="relative z-10 flex flex-col items-start justify-end">
         <Filter onClick={() => setIsModalOpen(true)} />
         {isModalOpen && (
           <div className="absolute right-0 top-10 z-20">
@@ -37,7 +36,7 @@ const SearchBar = ({ searchKey, updateQueryParams, setSearchKey }) => {
             />
           </div>
         )}
-      </div> */}
+      </div>
     </div>
     // </div>
   );
