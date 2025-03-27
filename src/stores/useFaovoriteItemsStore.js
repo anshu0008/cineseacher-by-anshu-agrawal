@@ -1,16 +1,20 @@
-import { without } from "ramda";
 import { create } from "zustand";
 
-const useFaovoriteItemsStore = create(set => ({
+const useFavoriteItemsStore = create(set => ({
   favoriteCart: [],
-  pushToCart: Title =>
-    set(({ favoriteCart }) => {
-      if (favoriteCart.includes(Title)) {
-        return { favoriteCart: without([Title], favoriteCart) };
-      }
 
-      return { favoriteCart: [Title, ...favoriteCart] };
+  toggleFromCart: (Title, Ratings, imdbID) =>
+    set(({ favoriteCart }) => {
+      const itemExists = favoriteCart.some(
+        item => item.Title === Title && item.Ratings === Ratings
+      );
+
+      return {
+        favoriteCart: itemExists
+          ? favoriteCart.filter(item => item.imdbID !== imdbID)
+          : [...favoriteCart, { Title, Ratings, imdbID }],
+      };
     }),
 }));
 
-export default useFaovoriteItemsStore;
+export default useFavoriteItemsStore;
