@@ -4,6 +4,7 @@ import SpinnerComponent from "components/common/SpinnerComponent";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Rating, RatingFilled } from "neetoicons";
 import { Button, Modal, Typography } from "neetoui";
+import useFaovoriteItemsStore from "stores/useFaovoriteItemsStore";
 
 const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const { data, isLoading } = useShowMovieDetails({ i: imdbID });
@@ -23,6 +24,13 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const genre = Genre?.split(",") || [];
 
   const [isFavorite, setIsFavorite] = React.useState(false);
+
+  const { pushToCart } = useFaovoriteItemsStore();
+
+  const handleCartClick = () => {
+    setIsFavorite(!isFavorite);
+    pushToCart(Title);
+  };
 
   return (
     <Modal
@@ -61,7 +69,7 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
                     : "Add to Favorites",
                   position: "right",
                 }}
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={handleCartClick}
               />
             </div>
           </Modal.Header>
