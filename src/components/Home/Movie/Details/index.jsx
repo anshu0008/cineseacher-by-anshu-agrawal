@@ -23,13 +23,12 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   } = data || {};
   const genre = Genre?.split(",") || [];
 
-  const [isFavorite, setIsFavorite] = React.useState(false);
+  const { toggleFromCart, favoriteCart } = useFaovoriteItemsStore();
 
-  const { pushToCart } = useFaovoriteItemsStore();
+  const isFavorite = favoriteCart.some(item => item.imdbID === imdbID);
 
   const handleCartClick = () => {
-    setIsFavorite(!isFavorite);
-    pushToCart(Title);
+    toggleFromCart(Title, imdbRating, imdbID);
   };
 
   return (

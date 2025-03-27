@@ -1,4 +1,4 @@
-import NoMovies from "components/common/ShowEmptyData";
+import ShowEmptyData from "components/common/ShowEmptyData";
 import { Delete } from "neetoicons";
 import { Typography } from "neetoui";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
@@ -15,7 +15,7 @@ const HistoryContainer = () => {
         </Typography>
       </div>
       {historyCart.length === 0 ? (
-        <NoMovies title="No History Found" />
+        <ShowEmptyData description="No History Found" />
       ) : (
         <div className="flex h-full flex-col gap-3 overflow-y-auto">
           {historyCart.map((item, index) => (
