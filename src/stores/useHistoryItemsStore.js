@@ -2,14 +2,20 @@ import { create } from "zustand";
 
 const useHistoryItemsStore = create(set => ({
   historyCart: [],
-  pushToCart: Title =>
+  toggleFromCart: (Title, imdbId) =>
     set(({ historyCart }) => {
-      if (historyCart.includes(Title)) {
-        return {};
-      }
+      const itemExists = historyCart.some(item => item.imdbId === imdbId);
 
-      return { historyCart: [Title, ...historyCart] };
+      return {
+        historyCart: itemExists
+          ? historyCart.filter(item => item.imdbId !== imdbId)
+          : [...historyCart, { Title, imdbId }],
+      };
     }),
+  clearCart: () =>
+    set(() => ({
+      historyCart: [],
+    })),
 }));
 
 export default useHistoryItemsStore;
