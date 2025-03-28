@@ -2,16 +2,24 @@ import { keysToCamelCase } from "@bigbinary/neeto-cist";
 import axios from "axios";
 import { t } from "i18next";
 import { Toastr } from "neetoui";
+import { Bounce } from "react-toastify";
 
 const checkForSuccess = response => {
-  if (response.data.Response === "False") Toastr.error(response.data.Error);
+  if (response.data.Response === "False") {
+    return Toastr.error(response.data.Error, {
+      autoClose: 200,
+      transition: Bounce,
+    });
+  }
+
+  return null;
 };
 
 const showErrorToastr = error => {
   if (error.message === t("error.networkError")) {
     Toastr.error(t("error.noInternetConnection"));
   } else if (error.response?.status !== 404) {
-    Toastr.error(error, { autoClose: 3000 });
+    Toastr.error(error, { autoClose: 200, transition: Bounce });
   }
 };
 

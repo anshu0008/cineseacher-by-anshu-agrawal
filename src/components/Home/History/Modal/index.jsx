@@ -11,7 +11,7 @@ const DeleteModal = ({
   clearAll,
   setClearAll,
 }) => {
-  const { toggleFromCart, clearCart } = useHistoryItemsStore();
+  const { deleteFromCart, clearCart } = useHistoryItemsStore();
 
   const handleModal = () => {
     setIsOpen(false);
@@ -21,7 +21,7 @@ const DeleteModal = ({
     if (clearAll) {
       clearCart();
     } else {
-      toggleFromCart(Title, imdbId);
+      deleteFromCart(imdbId);
     }
     setClearAll(false);
     handleModal();

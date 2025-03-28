@@ -1,53 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Input, Checkbox, Toastr } from "neetoui";
+import { Input, Checkbox } from "neetoui";
 
-const FilterDialog = ({ isOpen, onClose }) => {
-  const [year, setYear] = useState(2024);
-  const [filters, setFilters] = useState({ movie: true, series: false });
+import filterValidation from "./utils";
+
+const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
+  const [yearState, setYearState] = useState(null);
+
+  const [showMessage, setShowMessage] = useState(true);
+
+  const [filters, setFilters] = useState({ movie: true, series: true });
 
   const handleCheckboxChange = type => {
     setFilters(prev => ({ ...prev, [type]: !prev[type] }));
   };
-  const currentYear = new Date().getFullYear();
-  if (year > currentYear) {
-    Toastr.error("Year should be less than or equal to current year");
-  }
+
+  useEffect(() => {
+    filterValidation({
+      yearState,
+      updateQueryParams,
+      filters,
+    });
+    if (yearState > 1950 && yearState <= new Date().getFullYear()) {
+      setShowMessage(false);
+    } else {
+      setShowMessage(true);
+    }
+  }, [yearState, filters]);
 
   return (
-    isOpen && (
-      <div className="w-64 rounded-lg border bg-white p-4 shadow-lg">
-        <div className="flex items-center justify-between">
-          <span className="font-semibold text-gray-700">Filters</span>
-          <button className="text-gray-500 hover:text-black" onClick={onClose}>
-            ✖
-          </button>
-        </div>
-        <div className="mt-2">
-          <label className="text-gray-700">Year</label>
-          <Input
-            type="number"
-            value={year}
-            onChange={e => setYear(e.target.value)}
-          />
-        </div>
-        <div className="mt-2">
-          <label className="text-gray-700">Type</label>
-          <div className="mt-2 flex gap-4">
-            <Checkbox
-              checked={filters.movie}
-              label="Movie"
-              onChange={() => handleCheckboxChange("movie")}
+    <div className="absolute right-0 top-10 z-20">
+      {isOpen && (
+        <div className="w-64 rounded-lg border bg-white p-4 shadow-lg">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-gray-700">Filters</span>
+            <button
+              className="text-gray-500 hover:text-black"
+              onClick={onClose}
+            >
+              ✖
+            </button>
+          </div>
+          <div className="mt-2">
+            <label className="text-gray-700">Year</label>
+            <Input
+              placeholder="YYYY"
+              type="number"
+              onChange={({ target: { value } }) => setYearState(value)}
             />
-            <Checkbox
-              checked={filters.series}
-              label="Series"
-              onChange={() => handleCheckboxChange("series")}
-            />
+            {showMessage && (
+              <span className="text-xs text-red-500">
+                *Year should be between 1950 and 2025
+              </span>
+            )}
+          </div>
+          <div className="mt-2">
+            <label className="text-gray-700">Type</label>
+            <div className="mt-2 flex gap-4">
+              <Checkbox
+                checked={filters.movie}
+                label="Movie"
+                onChange={() => handleCheckboxChange("movie")}
+              />
+              <Checkbox
+                checked={filters.series}
+                label="Series"
+                onChange={() => handleCheckboxChange("series")}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )}
+    </div>
   );
 };
 

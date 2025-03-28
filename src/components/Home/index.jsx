@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import SpinnerComponent from "components/common/SpinnerComponent";
 import { useMovieFetch } from "hooks/reactQuery/useMoviesApi";
@@ -18,69 +18,73 @@ import SearchBar from "./Search/SearchBar";
 const Home = () => {
   const history = useHistory();
 
-  const { page, pageSize, searchTerm = "" } = useQueryParams();
+  const { page, pageSize, searchTerm = "", year, type = "" } = useQueryParams();
 
-  const [searchKey, setSearchKey] = useState(searchTerm || "");
-
-  const [data, setData] = useState([]);
-
-  const { data: { Search, totalResults } = {}, isFetching } = useMovieFetch({
-    s: searchTerm,
+  const params = {
+    searchTerm,
     page: Number(page) || DEFAULT_PAGE_INDEX,
     pageSize: Number(pageSize) || DEFAULT_PAGE_SIZE,
-  });
+    year: Number(year) || null,
+    type: type || null,
+  };
+
+  const { data: { Search: movies, totalResults, Response } = {}, isFetching } =
+    useMovieFetch({
+      s: searchTerm,
+      page: Number(page) || DEFAULT_PAGE_INDEX,
+      pageSize: Number(pageSize) || DEFAULT_PAGE_SIZE,
+      y: Number(year) || null,
+      type: type || null,
+    });
 
   const handlePageNavigation = page =>
     history.replace(
-      buildUrl("/movies", {
-        page,
-        pageSize: DEFAULT_PAGE_SIZE,
-        searchTerm: searchKey,
-      })
+      buildUrl(
+        "/movies",
+        filterNonNull({
+          ...params,
+          page,
+        })
+      )
     );
 
-  const updateQueryParams = useFuncDebounce(value => {
-    const params = {
-      page: DEFAULT_PAGE_INDEX,
-      pageSize: DEFAULT_PAGE_SIZE,
-      searchTerm: value || null,
+  const updateQueryParams = useFuncDebounce(updatedValue => {
+    console.log("updatedValue", updatedValue);
+    const updatedParam = {
+      ...params,
+      ...updatedValue,
     };
 
-    if (value.length > 0) {
-      history.replace(buildUrl("/movies", filterNonNull(params)));
-    } else {
-      history.replace(buildUrl("/movies"));
-      setData(null);
-    }
+    history.push(
+      isEmpty(updatedParam.searchTerm)
+        ? buildUrl("/movies")
+        : buildUrl("/movies", filterNonNull(updatedParam))
+    );
   });
-
-  useEffect(() => {
-    setData(Search || []);
-  }, [Search]);
 
   return (
     <div className="flex h-full bg-gray-50">
       <div className="flex h-full w-3/4 flex-col p-4">
         <SearchBar
-          searchKey={searchKey}
-          setSearchKey={setSearchKey}
-          updateQueryParams={updateQueryParams}
+          {...{
+            searchTerm,
+            updateQueryParams,
+            year,
+          }}
         />
-        {isFetching && isEmpty(data) ? (
+        {isFetching || isEmpty(movies) ? (
           <SpinnerComponent />
         ) : (
-          <>
-            <Movies data={data} />
-            <div className="mt-5 self-end">
-              <Pagination
-                count={totalResults}
-                navigate={handlePageNavigation}
-                pageNo={Number(page) || DEFAULT_PAGE_INDEX}
-                pageSize={Number(pageSize) || DEFAULT_PAGE_SIZE}
-              />
-            </div>
-          </>
+          <Movies Response={Response} movies={movies} />
         )}
+        <div className="mt-5 self-end">
+          <Pagination
+            count={totalResults || 1}
+            navigate={handlePageNavigation}
+            pageNo={Number(page) || DEFAULT_PAGE_INDEX}
+            pageSize={Number(pageSize) || DEFAULT_PAGE_SIZE}
+          />
+        </div>
       </div>
       <div className="ml-10 flex h-5/6 w-1/4 flex-col overflow-hidden border-l-2 border-gray-300">
         <div className="overflow-y-auto">
