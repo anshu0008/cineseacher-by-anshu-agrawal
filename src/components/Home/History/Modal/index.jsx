@@ -7,39 +7,40 @@ const DeleteModal = ({
   isOpen,
   setIsOpen,
   imdbId = "",
-  Title = "",
   clearAll,
   setClearAll,
 }) => {
   const { deleteFromCart, clearCart } = useHistoryItemsStore();
 
-  const handleModal = () => {
+  const handleDeleteModalShow = () => {
     setIsOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleHistoryDelete = () => {
     if (clearAll) {
       clearCart();
     } else {
       deleteFromCart(imdbId);
     }
     setClearAll(false);
-    handleModal();
+    handleDeleteModalShow();
   };
-  if (isOpen === false) {
-    return null;
-  }
 
   return (
-    <Modal isOpen={isOpen} onClose={handleModal}>
+    <Modal isOpen={isOpen} onClose={handleDeleteModalShow}>
       <Modal.Header>
         <Typography id="dialog1Title" style="h2">
-          Are you sure you want to delete {!clearAll ? Title : "all movies"}?
+          Are you sure you want to delete{" "}
+          {clearAll ? "all the movies " : "the movie"} ?
         </Typography>
       </Modal.Header>
       <Modal.Footer className="space-x-2">
-        <Button label="Cancel" style="tertiary" onClick={handleModal} />
-        <Button label="Delete" style="danger" onClick={handleDelete} />
+        <Button
+          label="Cancel"
+          style="tertiary"
+          onClick={handleDeleteModalShow}
+        />
+        <Button label="Delete" style="danger" onClick={handleHistoryDelete} />
       </Modal.Footer>
     </Modal>
   );

@@ -49,7 +49,6 @@ const Home = () => {
     );
 
   const updateQueryParams = useFuncDebounce(updatedValue => {
-    console.log("updatedValue", updatedValue);
     const updatedParam = {
       ...params,
       ...updatedValue,
@@ -69,7 +68,6 @@ const Home = () => {
           {...{
             searchTerm,
             updateQueryParams,
-            year,
           }}
         />
         {isFetching || isEmpty(movies) ? (
