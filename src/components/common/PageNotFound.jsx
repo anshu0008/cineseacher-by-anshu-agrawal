@@ -1,16 +1,23 @@
 import { NoData } from "neetoui";
+import { useTranslation } from "react-i18next";
+import withT from "utils/withT";
 
-const PageNotFound = () => (
-  <div className="absolute left-1/3 top-1/3">
-    <NoData
-      title="The page you're looking for can't be found"
-      primaryButtonProps={{
-        label: "Back to home",
-        className: "bg-neutral-800 hover:bg-neutral-950",
-        to: "/",
-      }}
-    />
-  </div>
-);
+import { route } from "../../route";
 
-export default PageNotFound;
+const PageNotFound = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="absolute left-1/3 top-1/3">
+      <NoData
+        title={t("pageNotFound.title")}
+        primaryButtonProps={{
+          label: t("pageNotFound.label"),
+          className: "bg-neutral-800 hover:bg-neutral-950",
+          to: `${route.movies.index}`,
+        }}
+      />
+    </div>
+  );
+};
+export default withT(PageNotFound);

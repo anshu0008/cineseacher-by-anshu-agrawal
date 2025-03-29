@@ -28,23 +28,15 @@ const useHistoryItemsStore = create(
         })),
 
       deleteFromCart: imdbId =>
-        set(({ historyCart }) => {
-          const updatedData = historyCart.data.filter(
-            item => item.imdbId !== imdbId
-          );
-
-          return {
-            historyCart: {
-              data: updatedData,
-              id:
-                historyCart.id === imdbId // If deleting the selected item
-                  ? updatedData.length > 0 // If list is not empty
-                    ? updatedData[updatedData.length - 1].imdbId // Select last item instead of first
-                    : 0 // If empty, reset to 0
-                  : historyCart.id, // If not deleting the selected item, keep `id` unchanged
-            },
-          };
-        }),
+        set(({ historyCart }) => ({
+          historyCart: {
+            data: historyCart.data.filter(item => item.imdbId !== imdbId),
+            id:
+              historyCart.id === imdbId
+                ? historyCart.data[0].imdbId
+                : historyCart.id,
+          },
+        })),
     }),
     { history: "history-cart" }
   )

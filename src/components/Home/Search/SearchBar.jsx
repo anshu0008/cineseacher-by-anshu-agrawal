@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { useSearchOnFocus } from "hooks/searchOnFocus";
 import { Filter, Search } from "neetoicons";
 import { Input } from "neetoui";
+import { useTranslation } from "react-i18next";
 
 import FilterDialog from "./FilterDialog";
 
@@ -10,6 +11,8 @@ const SearchBar = ({ searchTerm, updateQueryParams }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [searchKey, setSearchKey] = useState(searchTerm || "");
+
+  const { t } = useTranslation();
 
   const inputRef = useRef(null);
   useSearchOnFocus({ inputRef });
@@ -23,7 +26,7 @@ const SearchBar = ({ searchTerm, updateQueryParams }) => {
     <div className="mb-8 flex items-center justify-between gap-4">
       <Input
         className="w-full border-gray-300"
-        placeholder="Search Pictures"
+        placeholder={t("inputPlaceholder.search")}
         prefix={<Search />}
         ref={inputRef}
         type="search"

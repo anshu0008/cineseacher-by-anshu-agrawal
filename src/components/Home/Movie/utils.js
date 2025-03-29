@@ -9,3 +9,16 @@ export const fallbackImage = Poster => {
 };
 
 export const isEmptyOrUndefined = R.either(R.isEmpty, R.isNil);
+
+export const movieOtherDetails = (
+  t,
+  { Director, Actors, BoxOffice, Year, Runtime, Language, imdbRating }
+) => ({
+  [t("movieModalData.director")]: Director,
+  [t("movieModalData.actors")]: Actors,
+  [t("movieModalData.boxOffice")]: BoxOffice,
+  [t("movieModalData.year")]: Year,
+  [t("movieModalData.runtime")]: Runtime,
+  [t("movieModalData.language")]: Language,
+  [t("movieModalData.rated")]: imdbRating,
+});

@@ -1,3 +1,64 @@
 {
-  "helloWorld": "Hello World"
+  "inputPlaceholder": {
+    "search": "Search for movies or series",
+    "year": "YYYY"
+  },
+  "title": {
+    "emptySearchKey": "Enter any movies or series to search",
+    "movieNotFound": "No movies or series found",
+    "emptyViewHistory": "No history to display",
+    "emptyFavoriteStore": "No favorite movies or series to show"
+  },
+  "movie": {
+    "movieData": "<typography>{{text}}</typography>:",
+    "movieValue": "<typography>{{value}}</typography>",
+    "movieButtonLabel": "View details",
+    "notAvailable": "N/A"
+  },
+  "history": {
+    "viewHistory": "View history",
+    "clearAll": "Clear all",
+    "clearAllTitle": "Delete all view history",
+    "clearAllMessage": "All of your saved history will be lost. This action can't be undone.",
+    "submitButtonLabel": "Delete all",
+    "clearTitle": "Deleting {{value}} from history",
+    "clearMessage": "Are you sure you want to delete ? This action can't be undone.",
+    "deleteLabel": "Delete",
+    "cancelLabel": "Cancel"
+  },
+  "pageNotFound": {
+    "title": "The page you're looking for can't be found",
+    "label": "Back to home"
+  },
+  "movieModalData": {
+    "director": "Director",
+    "actors": "Actors",
+    "boxOffice": "Box Office",
+    "year": "Year",
+    "runtime": "Runtime",
+    "language": "Language",
+    "rated": "Rated"
+  },
+  "header": {
+    "cine": "Cine",
+    "searcher": "Searcher",
+    "home": "Home",
+    "favorite": "Favorites"
+  },
+  "favorite": {
+    "rating": "Rating: <span>{{value}}</span>/10",
+    "removeFromFavorite": "Remove from favorite",
+    "addToFavorite": "Add to favorite"
+  },
+  "errorMessage": {
+    "invalidYear": "Year should be between 1950 and {{value}}"
+  },
+  "label": {
+    "year": "Year",
+    "type": "Type",
+    "movies": "Movies",
+    "series": "Series",
+    "img": "Movie poster",
+    "filter": "Filter"
+  }
 }

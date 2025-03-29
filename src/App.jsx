@@ -1,6 +1,6 @@
 import initializeAxios from "apis/axios";
 import { Navbar } from "components/common";
-import FavoritePage from "components/favorite";
+import FavoritePage from "components/Favorite/FavoritePage";
 import Home from "components/Home";
 import { Switch, Route, Redirect } from "react-router-dom";
 

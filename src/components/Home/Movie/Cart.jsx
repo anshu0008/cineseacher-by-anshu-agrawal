@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 
 import { Button } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
-import Details from "./Details";
+import Details from "./Details/Details";
 import { fallbackImage } from "./utils";
 
 const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { t } = useTranslation();
 
   const poster = fallbackImage(Poster);
   const { pushToCart } = useHistoryItemsStore();
@@ -23,7 +26,7 @@ const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
       key={imdbID}
     >
       <div className="flex items-start justify-center">
-        <img alt="movie" className="h-32 w-auto" src={poster} />
+        <img alt={t("label.img")} className="h-32 w-auto" src={poster} />
       </div>
       <div className="flex flex-col items-start gap-1 px-4 py-1">
         <h2 className="text-base font-bold">{Title}</h2>
@@ -35,7 +38,7 @@ const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
           style="text"
           onClick={handleClick}
         >
-          View Details
+          {t("movie.movieButtonLabel")}
         </Button>
       </div>
       <Details {...{ isModalVisible, imdbID, setIsModalVisible }} />

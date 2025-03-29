@@ -5,6 +5,9 @@ import en from "translations/en.json";
 i18n.use(initReactI18next).init({
   resources: { en: { translation: en } },
   fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
 });
 
 export default i18n;

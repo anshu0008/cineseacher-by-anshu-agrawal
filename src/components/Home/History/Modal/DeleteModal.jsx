@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Button, Typography, Modal } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
 const DeleteModal = ({
@@ -11,6 +12,8 @@ const DeleteModal = ({
   setClearAll,
 }) => {
   const { deleteFromCart, clearCart } = useHistoryItemsStore();
+
+  const { t } = useTranslation();
 
   const handleDeleteModalShow = () => {
     setIsOpen(false);
@@ -30,17 +33,20 @@ const DeleteModal = ({
     <Modal isOpen={isOpen} onClose={handleDeleteModalShow}>
       <Modal.Header>
         <Typography id="dialog1Title" style="h2">
-          Are you sure you want to delete{" "}
-          {clearAll ? "all the movies " : "the movie"} ?
+          {clearAll ? t("history.clearAllMessage") : t("history.clearMessage")}
         </Typography>
       </Modal.Header>
       <Modal.Footer className="space-x-2">
         <Button
-          label="Cancel"
+          label={t("history.cancelLabel")}
           style="tertiary"
           onClick={handleDeleteModalShow}
         />
-        <Button label="Delete" style="danger" onClick={handleHistoryDelete} />
+        <Button
+          label={t("history.deleteLabel")}
+          style="danger"
+          onClick={handleHistoryDelete}
+        />
       </Modal.Footer>
     </Modal>
   );
