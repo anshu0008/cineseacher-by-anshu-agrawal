@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const showDetails = params => axios.get("/", { params });
+import { BASE_URL } from "./constant";
 
-const fetchList = params => axios.get("/", { params });
+const showDetails = params => axios.get(BASE_URL, { params });
+
+const fetchList = params => axios.get(BASE_URL, { params });
 
 const moviesApi = { showDetails, fetchList };
 

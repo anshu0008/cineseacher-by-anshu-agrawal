@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import dayjs from "dayjs";
 import { Input, Checkbox } from "neetoui";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +15,8 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
 
   const { t } = useTranslation();
 
+  const currentYear = dayjs().year();
+
   const handleCheckboxChange = type => {
     setFilters(prev => ({ ...prev, [type]: !prev[type] }));
   };
@@ -23,8 +26,9 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
       yearState,
       updateQueryParams,
       filters,
+      currentYear,
     });
-    if (yearState > 1950 && yearState <= new Date().getFullYear()) {
+    if (yearState > 1950 && yearState <= currentYear) {
       setErrorMessage(false);
     } else {
       setErrorMessage(true);
@@ -55,7 +59,7 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
           />
           {errorMessage && (
             <span className="text-xs text-red-500">
-              {t("errorMessage.invalidYear", { value: 2025 })}
+              {t("errorMessage.invalidYear", { value: currentYear })}
             </span>
           )}
         </div>
