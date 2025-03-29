@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
+import classNames from "classnames";
 import ShowEmptyData from "components/common/ShowEmptyData";
 import { Delete } from "neetoicons";
 import { Button, Typography } from "neetoui";
@@ -66,9 +67,12 @@ const HistoryContainer = () => {
             <div
               key={index}
               ref={imdbId === id ? selectedRef : null}
-              className={`flex cursor-pointer items-center justify-between rounded-lg bg-gray-300 p-3 text-sm font-semibold shadow-sm hover:bg-blue-500 hover:text-white ${
-                imdbId === id ? "bg-blue-500 text-white" : ""
-              }`}
+              className={classNames(
+                "flex cursor-pointer items-center justify-between rounded-lg bg-gray-300 p-3 text-sm font-semibold shadow-sm hover:bg-blue-500 hover:text-white",
+                {
+                  "bg-blue-500 text-white": imdbId === id,
+                }
+              )}
             >
               {Title}
               <Button

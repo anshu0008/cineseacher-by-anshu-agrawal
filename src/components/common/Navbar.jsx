@@ -1,5 +1,6 @@
 import React from "react";
 
+import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import withT from "utils/withT";
@@ -25,9 +26,11 @@ const Navbar = () => {
         </Link>
         <Link
           to={route.movies.favorite}
-          className={
-            location === "/movies/favorite" ? "text-blue-600" : "text-gray-600"
-          }
+          className={classNames({
+            "text-blue-600": location === "/movies/favorite",
+            "text-gray-600": location !== "/movies/favorite",
+            relative: location !== "/movies/favorite",
+          })}
         >
           {t("header.favorite")}
         </Link>
