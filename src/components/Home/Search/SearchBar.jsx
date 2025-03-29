@@ -6,13 +6,18 @@ import { Input } from "neetoui";
 
 import FilterDialog from "./FilterDialog";
 
-const SearchBar = ({ searchTerm, updateQueryParams, year }) => {
+const SearchBar = ({ searchTerm, updateQueryParams }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [searchKey, setSearchKey] = useState(searchTerm || "");
 
   const inputRef = useRef(null);
   useSearchOnFocus({ inputRef });
+
+  const handleChange = value => {
+    updateQueryParams({ searchTerm: value });
+    setSearchKey(value);
+  };
 
   return (
     <div className="mb-8 flex items-center justify-between gap-4">
@@ -24,8 +29,7 @@ const SearchBar = ({ searchTerm, updateQueryParams, year }) => {
         type="search"
         value={searchKey}
         onChange={({ target: { value } }) => {
-          updateQueryParams({ searchTerm: value });
-          setSearchKey(value);
+          handleChange(value);
         }}
       />
       <div className="relative z-10 flex flex-col items-start justify-end">
@@ -37,7 +41,6 @@ const SearchBar = ({ searchTerm, updateQueryParams, year }) => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           {...{
-            year,
             updateQueryParams,
           }}
         />
