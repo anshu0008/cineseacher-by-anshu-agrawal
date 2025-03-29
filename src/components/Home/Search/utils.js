@@ -1,7 +1,11 @@
 import { isEmpty } from "ramda";
 
-const filterValidation = ({ yearState, updateQueryParams, filters }) => {
-  const currentYear = new Date().getFullYear();
+const filterValidation = ({
+  yearState,
+  updateQueryParams,
+  filters,
+  currentYear,
+}) => {
   const updates = {};
 
   if (yearState > 1950 && yearState <= currentYear) {

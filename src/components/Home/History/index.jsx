@@ -4,11 +4,13 @@ import ShowEmptyData from "components/common/ShowEmptyData";
 import { Delete } from "neetoicons";
 import { Button, Typography } from "neetoui";
 import { isEmpty } from "ramda";
+import { useTranslation } from "react-i18next";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
-import DeleteModal from "./Modal";
+import DeleteModal from "./Modal/DeleteModal";
 
 const HistoryContainer = () => {
+  const { t } = useTranslation();
   const { historyCart: { data = [], id } = {} } = useHistoryItemsStore();
   const [isOpen, setIsOpen] = useState(false);
   const [clearAll, setClearAll] = useState(false);
@@ -43,18 +45,18 @@ const HistoryContainer = () => {
   return (
     <div className="flex h-full w-full flex-col rounded-lg p-4">
       <div className="mb-8 flex items-center justify-between text-lg font-semibold">
-        <Typography style="h3">View History</Typography>
+        <Typography style="h3">{t("history.viewHistory")}</Typography>
         <Button
           disabled={disableDeleteButton}
           style="danger-text"
           type="reset"
           onClick={handleClearAll}
         >
-          Clear all
+          {t("history.clearAll")}
         </Button>
       </div>
       {isEmpty(data) ? (
-        <ShowEmptyData description="No History Found" />
+        <ShowEmptyData description={t("title.emptyViewHistory")} />
       ) : (
         <div
           className="flex flex-col gap-3 overflow-y-auto border p-2"

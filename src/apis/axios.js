@@ -1,6 +1,6 @@
-import { keysToCamelCase } from "@bigbinary/neeto-cist";
 import axios from "axios";
 import { t } from "i18next";
+import { keysToCamelCase, transformObjectDeep } from "neetocist";
 import { Toastr } from "neetoui";
 import { Bounce } from "react-toastify";
 
@@ -23,8 +23,23 @@ const showErrorToastr = error => {
   }
 };
 
-const transformResponseKeysToCamelCase = response => {
-  if (response.data) response.data = keysToCamelCase(response.data);
+const transformResponseKeysToCamelCase = ({ data }) => {
+  if (data) {
+    const { search = [], ...restData } = transformObjectDeep(
+      data,
+      (key, value) => {
+        const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+
+        return [camelCaseKey, value];
+      }
+    );
+
+    const transformedSearch = search.map(keysToCamelCase);
+
+    return { search: transformedSearch, ...restData };
+  }
+
+  return {};
 };
 
 const responseInterceptors = () => {

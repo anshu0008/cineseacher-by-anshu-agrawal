@@ -1,13 +1,16 @@
 import React from "react";
 
 import SpinnerComponent from "components/common/SpinnerComponent";
+import { genreSplit } from "components/Home/constant";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
 import { Rating, RatingFilled } from "neetoicons";
 import { Button, Modal, Typography } from "neetoui";
+import { useTranslation } from "react-i18next";
 import useFaovoriteItemsStore from "stores/useFaovoriteItemsStore";
 
 const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const { data, isLoading } = useShowMovieDetails({ i: imdbID });
+
   const {
     Title,
     Poster,
@@ -21,7 +24,10 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
     imdbRating,
     Genre,
   } = data || {};
-  const genre = Genre?.split(",") || [];
+
+  const { t } = useTranslation();
+
+  const genre = genreSplit(Genre);
 
   const { toggleFromCart, favoriteCart } = useFaovoriteItemsStore();
 
@@ -30,6 +36,9 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const handleCartClick = () => {
     toggleFromCart(Title, imdbRating, imdbID);
   };
+
+  const MOVIE_OTHER_DETAILS =
+    (t, { Director, Actors, BoxOffice, Year, Runtime, Language, imdbRating });
 
   return (
     <Modal
@@ -64,8 +73,8 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
                 style="icon"
                 tooltipProps={{
                   content: isFavorite
-                    ? "Remove from Favorite"
-                    : "Add to Favorites",
+                    ? t("favorite.removeFromFavorite")
+                    : t("favorite.addToFavorite"),
                   position: "right",
                 }}
                 onClick={handleCartClick}
@@ -84,32 +93,12 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
               <div className="col-span-8">
                 <Typography className="italic text-gray-600">{Plot}</Typography>
                 <ul className="mt-4 space-y-2 text-sm">
-                  <li>
-                    <strong className="text-gray-800">Director:</strong>
-                    {Director}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Actors:</strong> {Actors}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Box Office:</strong>{" "}
-                    {BoxOffice}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Year:</strong> {Year}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Runtime:</strong>{" "}
-                    {Runtime}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Language:</strong>{" "}
-                    {Language}
-                  </li>
-                  <li>
-                    <strong className="text-gray-800">Rated:</strong>{" "}
-                    {imdbRating}
-                  </li>
+                  {Object.entries(MOVIE_OTHER_DETAILS).map(([text, value]) => (
+                    <li key={text}>
+                      <strong className="text-gray-800">{text}: </strong>
+                      {value}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
