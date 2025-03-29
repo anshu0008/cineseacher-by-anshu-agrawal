@@ -7,7 +7,7 @@ import filterValidation from "./utils";
 const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
   const [yearState, setYearState] = useState(null);
 
-  const [showMessage, setShowMessage] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(true);
 
   const [filters, setFilters] = useState({ movie: true, series: true });
 
@@ -22,9 +22,9 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
       filters,
     });
     if (yearState > 1950 && yearState <= new Date().getFullYear()) {
-      setShowMessage(false);
+      setErrorMessage(false);
     } else {
-      setShowMessage(true);
+      setErrorMessage(true);
     }
   }, [yearState, filters]);
 
@@ -48,7 +48,7 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
               type="number"
               onChange={({ target: { value } }) => setYearState(value)}
             />
-            {showMessage && (
+            {errorMessage && (
               <span className="text-xs text-red-500">
                 *Year should be between 1950 and 2025
               </span>

@@ -7,7 +7,7 @@ export const useMovieFetch = params =>
   useQuery({
     queryKey: [QUERY_KEYS.MOVIES, params],
     queryFn: () => moviesApi.fetchList(params),
-    enabled: !!params.s,
+    enabled: !!params.s.trim(),
   });
 
 export const useShowMovieDetails = id =>

@@ -6,6 +6,7 @@ const useFavoriteItemsStore = create(set => ({
   toggleFromCart: (Title, Ratings, imdbID) =>
     set(({ favoriteCart }) => {
       const itemExists = favoriteCart.some(item => item.imdbID === imdbID);
+      //implement using neetocist
 
       return {
         favoriteCart: itemExists
