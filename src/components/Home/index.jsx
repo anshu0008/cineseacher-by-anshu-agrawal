@@ -28,7 +28,7 @@ const Home = () => {
     type: type || null,
   };
 
-  const { data: { Search: movies, totalResults, Response } = {}, isFetching } =
+  const { data: { search: movies, totalResults, response } = {}, isFetching } =
     useMovieFetch({
       s: searchTerm,
       page: Number(page) || DEFAULT_PAGE_INDEX,
@@ -72,11 +72,7 @@ const Home = () => {
             type,
           }}
         />
-        {isFetching || isEmpty(movies) ? (
-          <SpinnerWrapper />
-        ) : (
-          <Movies Response={Response} movies={movies} />
-        )}
+        {isFetching ? <SpinnerWrapper /> : <Movies {...{ response, movies }} />}
         <div className="mt-5 self-end">
           <Pagination
             count={totalResults || 1}

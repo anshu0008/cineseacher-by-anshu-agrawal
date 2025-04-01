@@ -1,4 +1,4 @@
-import { existsBy, removeBy } from "neetocist";
+import { existsBy, findBy, removeBy } from "neetocist";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -6,7 +6,7 @@ const useHistoryItemsStore = create(
   persist(
     set => ({
       historyCart: { data: [], id: 0 },
-      pushToCart: (Title, imdbId) =>
+      pushToCart: (title, imdbId) =>
         set(({ historyCart }) => {
           const itemExists = existsBy({ imdbId }, historyCart.data);
 
@@ -14,7 +14,7 @@ const useHistoryItemsStore = create(
             historyCart: itemExists
               ? { data: historyCart.data, id: imdbId }
               : {
-                  data: [{ Title, imdbId }, ...historyCart.data],
+                  data: [{ title, imdbId }, ...historyCart.data],
                   id: imdbId,
                 },
           };
@@ -29,10 +29,16 @@ const useHistoryItemsStore = create(
         set(({ historyCart }) => ({
           historyCart: {
             data: removeBy({ imdbId }, historyCart.data),
-            id:
-              historyCart.id === imdbId
-                ? historyCart.data[0].imdbId
-                : historyCart.id,
+            id: (() => {
+              if (historyCart.id !== imdbId) return historyCart.id;
+
+              const nextValidItem = findBy(
+                { imdbId: value => value !== imdbId },
+                historyCart.data
+              );
+
+              return nextValidItem?.imdbId || 0;
+            })(),
           },
         })),
     }),

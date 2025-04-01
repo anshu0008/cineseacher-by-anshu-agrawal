@@ -10,6 +10,8 @@ const FavoritePage = () => {
 
   const { favoriteCart } = useFavoriteItemsStore();
 
+  console.log(favoriteCart);
+
   if (isEmpty(favoriteCart)) {
     return (
       <div className="flex h-full w-full items-center justify-center">
@@ -21,16 +23,16 @@ const FavoritePage = () => {
   return (
     <div className="flex h-5/6 w-full flex-col items-center justify-start gap-5 overflow-y-auto">
       <div className="mt-10 flex w-full flex-col items-center justify-start gap-5">
-        {favoriteCart.map(({ Title, Ratings }, index) => (
+        {favoriteCart.map(({ title, ratings }, index) => (
           <div
             className="flex w-1/2 items-center justify-between rounded-lg border-2 border-gray-300 p-4 shadow-md"
             key={index}
           >
-            <h2 className="text-xl font-semibold">{Title}</h2>
+            <h2 className="text-xl font-semibold">{title}</h2>
             <span className="ml-2 text-sm font-medium text-gray-500">
               <Trans
                 i18nKey="favorite.rating"
-                values={{ value: Ratings }}
+                values={{ value: ratings }}
                 components={{
                   span: <span className="text-sm text-black" />,
                 }}

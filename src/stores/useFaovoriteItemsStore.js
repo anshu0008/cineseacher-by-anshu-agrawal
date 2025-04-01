@@ -7,14 +7,14 @@ const useFavoriteItemsStore = create(
     set => ({
       favoriteCart: [],
 
-      toggleFromCart: (Title, Ratings, imdbID) =>
+      toggleFromCart: (title, ratings, imdbID) =>
         set(({ favoriteCart }) => {
           const itemExists = existsBy({ imdbID }, favoriteCart);
 
           return {
             favoriteCart: itemExists
               ? removeBy({ imdbID }, favoriteCart)
-              : [...favoriteCart, { Title, Ratings, imdbID }],
+              : [...favoriteCart, { title, ratings, imdbID }],
           };
         }),
     }),

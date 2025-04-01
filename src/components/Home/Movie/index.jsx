@@ -6,14 +6,13 @@ import { useTranslation } from "react-i18next";
 import MovieCart from "./Cart";
 import { isEmptyOrUndefined } from "./utils";
 
-const Movies = ({ movies, Response }) => {
+const Movies = ({ movies, response }) => {
   const { t } = useTranslation();
-
   if (isEmptyOrUndefined(movies)) {
     return (
       <NoData
         description={
-          Response === "False"
+          response === "False"
             ? t("title.movieNotFound")
             : t("title.emptySearchKey")
         }
