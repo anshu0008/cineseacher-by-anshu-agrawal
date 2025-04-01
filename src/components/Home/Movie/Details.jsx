@@ -7,7 +7,7 @@ import { existsBy } from "neetocist";
 import { Rating, RatingFilled } from "neetoicons";
 import { Button, Modal, Typography } from "neetoui";
 import { Trans, useTranslation } from "react-i18next";
-import useFavoriteItemsStore from "stores/useFaovoriteItemsStore";
+import useFavoriteItemsStore from "stores/useFavoriteItemsStore";
 
 import { otherMovieDetails } from "./utils";
 
@@ -32,7 +32,7 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
 
   const Genre = genreSplit(genre);
 
-  const { toggleFromCart, favoriteCart } = useFavoriteItemsStore();
+  const { toggleFromCart, favoriteCart } = useFavoriteItemsStore.pick();
 
   const isFavorite = existsBy({ imdbID }, favoriteCart);
 

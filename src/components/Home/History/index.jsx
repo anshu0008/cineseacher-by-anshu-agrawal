@@ -12,7 +12,7 @@ import DeleteModal from "./DeleteModal";
 
 const HistoryContainer = () => {
   const { t } = useTranslation();
-  const { historyCart: { data = [], id } = {} } = useHistoryItemsStore();
+  const { historyCart: { data = [], id } = {} } = useHistoryItemsStore.pick();
   const [isOpen, setIsOpen] = useState(false);
   const [clearAll, setClearAll] = useState(false);
   const [selectedImdbId, setSelectedImdbId] = useState(null);
