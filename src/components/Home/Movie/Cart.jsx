@@ -13,7 +13,7 @@ const MovieCart = ({ title, year, poster, imdbID, type }) => {
   const { t } = useTranslation();
 
   const Poster = fallbackImage(poster);
-  const { pushToCart } = useHistoryItemsStore();
+  const { pushToCart } = useHistoryItemsStore.pick();
 
   const handleClick = () => {
     setIsModalVisible(true);

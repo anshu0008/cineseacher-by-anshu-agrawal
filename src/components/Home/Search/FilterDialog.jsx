@@ -9,7 +9,7 @@ import filterValidation from "./utils";
 const FilterDialog = ({ isOpen, onClose, updateQueryParams, year, type }) => {
   const [yearState, setYearState] = useState(year || null);
 
-  const [errorMessage, setErrorMessage] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const [filters, setFilters] = useState(() => ({
     movie: type !== "series",
@@ -28,13 +28,8 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams, year, type }) => {
       yearState,
       updateQueryParams,
       filters,
-      currentYear,
+      setErrorMessage,
     });
-    if ((yearState > 1950 && yearState <= currentYear) || yearState === null) {
-      setErrorMessage(false);
-    } else {
-      setErrorMessage(true);
-    }
   }, [yearState, filters]);
 
   if (!isOpen) {

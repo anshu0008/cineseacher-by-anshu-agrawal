@@ -12,7 +12,7 @@ const DeleteModal = ({
   clearAll,
   setClearAll,
 }) => {
-  const { deleteFromCart, clearCart } = useHistoryItemsStore();
+  const { deleteFromCart, clearCart } = useHistoryItemsStore.pick();
 
   const { t } = useTranslation();
 

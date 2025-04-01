@@ -1,6 +1,11 @@
 import { FILTER_YEAR_VALIDATION_SCHEMA } from "../constant";
 
-const filterValidation = ({ yearState, updateQueryParams, filters }) => {
+const filterValidation = ({
+  yearState,
+  updateQueryParams,
+  filters,
+  setErrorMessage,
+}) => {
   const updates = {};
 
   const yearValidation = async () => {
@@ -12,9 +17,11 @@ const filterValidation = ({ yearState, updateQueryParams, filters }) => {
     try {
       await FILTER_YEAR_VALIDATION_SCHEMA().validate(yearState);
       updates.year = yearState;
+      setErrorMessage(false);
     } catch (error) {
       updates.year = null;
       console.error("Year validation error:", error);
+      setErrorMessage(true);
     }
   };
 
