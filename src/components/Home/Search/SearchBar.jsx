@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import FilterDialog from "./FilterDialog";
 
-const SearchBar = ({ searchTerm, updateQueryParams }) => {
+const SearchBar = ({ searchTerm, updateQueryParams, year, type }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [searchKey, setSearchKey] = useState(searchTerm || "");
@@ -45,6 +45,8 @@ const SearchBar = ({ searchTerm, updateQueryParams }) => {
           onClose={() => setIsModalOpen(false)}
           {...{
             updateQueryParams,
+            year,
+            type,
           }}
         />
       </div>

@@ -21,7 +21,7 @@
     "clearAllTitle": "Delete all view history",
     "clearAllMessage": "All of your saved history will be lost. This action can't be undone.",
     "submitButtonLabel": "Delete all",
-    "clearTitle": "Deleting {{value}} from history",
+    "clearTitle": "Deleting '{{value}}' from history",
     "clearMessage": "Are you sure you want to delete ? This action can't be undone.",
     "deleteLabel": "Delete",
     "cancelLabel": "Cancel"
@@ -31,13 +31,13 @@
     "label": "Back to home"
   },
   "movieModalData": {
-    "director": "Director",
-    "actors": "Actors",
-    "boxOffice": "Box Office",
-    "year": "Year",
-    "runtime": "Runtime",
-    "language": "Language",
-    "rated": "Rated"
+    "director": "Director ",
+    "actors": "Actors ",
+    "boxOffice": "Box Office ",
+    "year": "Year ",
+    "runtime": "Runtime ",
+    "language": "Language ",
+    "rated": "Rated "
   },
   "header": {
     "cine": "Cine",

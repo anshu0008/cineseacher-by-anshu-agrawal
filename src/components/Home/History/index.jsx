@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 
 import classNames from "classnames";
-import ShowEmptyData from "components/common/ShowEmptyData";
+import ShowEmptyData from "components/common/NoData";
 import { Delete } from "neetoicons";
 import { Button, Typography } from "neetoui";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
-import DeleteModal from "./Modal/DeleteModal";
+import DeleteModal from "./DeleteModal";
 
 const HistoryContainer = () => {
   const { t } = useTranslation();
@@ -16,19 +16,20 @@ const HistoryContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [clearAll, setClearAll] = useState(false);
   const [selectedImdbId, setSelectedImdbId] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState(null);
 
   const containerRef = useRef(null);
   const selectedRef = useRef(null);
-
-  const disableDeleteButton = isEmpty(data);
 
   const handleClearAll = () => {
     setIsOpen(true);
     setClearAll(true);
   };
 
-  const handleDeleteClick = imdbId => {
+  const handleDeleteClick = (imdbId, Title) => {
+    setClearAll(false);
     setSelectedImdbId(imdbId);
+    setSelectedTitle(Title);
     setIsOpen(true);
   };
 
@@ -48,7 +49,7 @@ const HistoryContainer = () => {
       <div className="mb-8 flex items-center justify-between text-lg font-semibold">
         <Typography style="h3">{t("history.viewHistory")}</Typography>
         <Button
-          disabled={disableDeleteButton}
+          disabled={isEmpty(data)}
           style="danger-text"
           type="reset"
           onClick={handleClearAll}
@@ -63,9 +64,9 @@ const HistoryContainer = () => {
           className="flex flex-col gap-3 overflow-y-auto border p-2"
           ref={containerRef}
         >
-          {data.map(({ Title, imdbId }, index) => (
+          {data.map(({ Title, imdbId }) => (
             <div
-              key={index}
+              key={imdbId}
               ref={imdbId === id ? selectedRef : null}
               className={classNames(
                 "flex cursor-pointer items-center justify-between rounded-lg bg-gray-300 p-3 text-sm font-semibold shadow-sm hover:bg-blue-500 hover:text-white",
@@ -76,22 +77,24 @@ const HistoryContainer = () => {
             >
               {Title}
               <Button
-                className="bg-"
                 icon={Delete}
                 size="large"
                 style="icon"
-                onClick={() => handleDeleteClick(imdbId)}
+                onClick={() => handleDeleteClick(imdbId, Title)}
               />
             </div>
           ))}
         </div>
       )}
       <DeleteModal
-        clearAll={clearAll}
-        imdbId={selectedImdbId}
-        isOpen={isOpen}
-        setClearAll={setClearAll}
-        setIsOpen={setIsOpen}
+        {...{
+          clearAll,
+          selectedImdbId,
+          selectedTitle,
+          setClearAll,
+          isOpen,
+          setIsOpen,
+        }}
       />
     </div>
   );
