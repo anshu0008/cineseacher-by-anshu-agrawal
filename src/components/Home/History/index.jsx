@@ -26,10 +26,10 @@ const HistoryContainer = () => {
     setClearAll(true);
   };
 
-  const handleDeleteClick = (imdbId, Title) => {
+  const handleDeleteClick = (imdbId, title) => {
     setClearAll(false);
     setSelectedImdbId(imdbId);
-    setSelectedTitle(Title);
+    setSelectedTitle(title);
     setIsOpen(true);
   };
 
@@ -64,7 +64,7 @@ const HistoryContainer = () => {
           className="flex flex-col gap-3 overflow-y-auto border p-2"
           ref={containerRef}
         >
-          {data.map(({ Title, imdbId }) => (
+          {data.map(({ title, imdbId }) => (
             <div
               key={imdbId}
               ref={imdbId === id ? selectedRef : null}
@@ -75,12 +75,12 @@ const HistoryContainer = () => {
                 }
               )}
             >
-              {Title}
+              {title}
               <Button
                 icon={Delete}
                 size="large"
                 style="icon"
-                onClick={() => handleDeleteClick(imdbId, Title)}
+                onClick={() => handleDeleteClick(imdbId, title)}
               />
             </div>
           ))}

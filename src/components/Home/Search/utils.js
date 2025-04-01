@@ -3,7 +3,6 @@ import { FILTER_YEAR_VALIDATION_SCHEMA } from "../constant";
 const filterValidation = ({ yearState, updateQueryParams, filters }) => {
   const updates = {};
 
-  // Validate year
   const yearValidation = async () => {
     if (!yearState) {
       updates.year = null;
@@ -19,7 +18,6 @@ const filterValidation = ({ yearState, updateQueryParams, filters }) => {
     }
   };
 
-  // Validate type
   if (filters.movie && !filters.series) {
     updates.type = "movie";
   } else if (filters.series && !filters.movie) {

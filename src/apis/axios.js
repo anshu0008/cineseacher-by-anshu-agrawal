@@ -4,9 +4,9 @@ import { keysToCamelCase, transformObjectDeep } from "neetocist";
 import { Toastr } from "neetoui";
 import { Bounce } from "react-toastify";
 
-const checkForSuccess = response => {
-  if (response.data.Response === "False") {
-    return Toastr.error(response.data.Error, {
+const checkForSuccess = ({ response, error = "" }) => {
+  if (response === "False") {
+    return Toastr.error(error, {
       autoClose: 200,
       transition: Bounce,
     });
@@ -25,15 +25,13 @@ const showErrorToastr = error => {
 
 const transformResponseKeysToCamelCase = ({ data }) => {
   if (data) {
-    const { search = [], ...restData } = transformObjectDeep(
-      data,
-      (key, value) => {
-        const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+    const demo = transformObjectDeep(data, (key, value) => {
+      const camelCaseKey = key.charAt(0).toLowerCase() + key.slice(1);
 
-        return [camelCaseKey, value];
-      }
-    );
+      return [camelCaseKey, value];
+    });
 
+    const { search = [], ...restData } = demo;
     const transformedSearch = search.map(keysToCamelCase);
 
     return { search: transformedSearch, ...restData };
@@ -45,10 +43,11 @@ const transformResponseKeysToCamelCase = ({ data }) => {
 const responseInterceptors = () => {
   axios.interceptors.response.use(
     response => {
-      transformResponseKeysToCamelCase(response);
-      checkForSuccess(response);
+      const data = transformResponseKeysToCamelCase(response);
 
-      return response.data;
+      checkForSuccess(data);
+
+      return data;
     },
     error => {
       showErrorToastr(error);

@@ -15,38 +15,38 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const { data, isLoading } = useShowMovieDetails({ i: imdbID });
 
   const {
-    Title,
-    Poster,
-    Plot,
-    Director,
-    Actors,
-    BoxOffice,
-    Year,
-    Runtime,
-    Language,
+    title,
+    poster,
+    plot,
+    director,
+    actors,
+    boxOffice,
+    year,
+    runtime,
+    language,
     imdbRating,
-    Genre,
+    genre,
   } = data || {};
 
   const { t } = useTranslation();
 
-  const genre = genreSplit(Genre);
+  const Genre = genreSplit(genre);
 
   const { toggleFromCart, favoriteCart } = useFavoriteItemsStore();
 
   const isFavorite = existsBy({ imdbID }, favoriteCart);
 
   const handleCartClick = () => {
-    toggleFromCart(Title, imdbRating, imdbID);
+    toggleFromCart(title, imdbRating, imdbID);
   };
 
   const OTHER_MOVIE_DETAILS = otherMovieDetails(t, {
-    Director,
-    Actors,
-    BoxOffice,
-    Year,
-    Runtime,
-    Language,
+    director,
+    actors,
+    boxOffice,
+    year,
+    runtime,
+    language,
     imdbRating,
   });
 
@@ -63,7 +63,7 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
           <Modal.Header
             description={
               <span className="mt-2 flex flex-wrap gap-2">
-                {genre.map(item => (
+                {Genre.map(item => (
                   <span
                     className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700"
                     key={item}
@@ -75,7 +75,7 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
             }
           >
             <div className="flex w-full items-center justify-start gap-2">
-              <Typography style="h2">{Title}</Typography>
+              <Typography style="h2">{title}</Typography>
               <Button
                 icon={isFavorite ? RatingFilled : Rating}
                 iconSize={30}
@@ -95,13 +95,13 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
             <div className="grid grid-cols-12 gap-6">
               <div className="col-span-4 flex justify-center">
                 <img
-                  alt={Title}
+                  alt={title}
                   className="w-full max-w-xs rounded-lg shadow-md"
-                  src={Poster}
+                  src={poster}
                 />
               </div>
               <div className="col-span-8">
-                <Typography className="italic text-gray-600">{Plot}</Typography>
+                <Typography className="italic text-gray-600">{plot}</Typography>
                 <ul className="mt-4 space-y-2 text-sm">
                   {Object.entries(OTHER_MOVIE_DETAILS).map(([text, value]) => (
                     <li className="flex gap-1" key={text}>

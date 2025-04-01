@@ -1,25 +1,25 @@
 import { either, isEmpty, isNil } from "ramda";
 
-export const fallbackImage = Poster => {
-  if (Poster === "N/A") {
+export const fallbackImage = poster => {
+  if (poster === "N/A") {
     return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF1QPzpt3U-jYLjNDy69hSRmg-MNcqGWkDkQ&s";
   }
 
-  return Poster;
+  return poster;
 };
 
 export const isEmptyOrUndefined = either(isEmpty, isNil);
 
 export const otherMovieDetails = (
   t,
-  { Director, Actors, BoxOffice, Year, Runtime, Language, imdbRating }
+  { director, actors, boxOffice, year, runtime, language, imdbRating }
 ) => ({
-  [t("movieModalData.director")]: Director,
-  [t("movieModalData.actors")]: Actors,
-  [t("movieModalData.boxOffice")]: BoxOffice,
-  [t("movieModalData.year")]: Year,
-  [t("movieModalData.runtime")]: Runtime,
-  [t("movieModalData.language")]: Language,
+  [t("movieModalData.director")]: director,
+  [t("movieModalData.actors")]: actors,
+  [t("movieModalData.boxOffice")]: boxOffice,
+  [t("movieModalData.year")]: year,
+  [t("movieModalData.runtime")]: runtime,
+  [t("movieModalData.language")]: language,
   [t("movieModalData.rated")]: imdbRating,
 });
 

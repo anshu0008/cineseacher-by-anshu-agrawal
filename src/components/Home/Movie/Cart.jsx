@@ -7,17 +7,17 @@ import useHistoryItemsStore from "stores/useHistoryItemsStore";
 import Details from "./Details";
 import { fallbackImage, movieYear } from "./utils";
 
-const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
+const MovieCart = ({ title, year, poster, imdbID, type }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const { t } = useTranslation();
 
-  const poster = fallbackImage(Poster);
+  const Poster = fallbackImage(poster);
   const { pushToCart } = useHistoryItemsStore();
 
   const handleClick = () => {
     setIsModalVisible(true);
-    pushToCart(Title, imdbID);
+    pushToCart(title, imdbID);
   };
 
   return (
@@ -26,11 +26,11 @@ const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
       key={imdbID}
     >
       <div className="flex items-start justify-center">
-        <img alt={t("label.img")} className="h-32 w-auto" src={poster} />
+        <img alt={t("label.img")} className="h-32 w-auto" src={Poster} />
       </div>
       <div className="flex flex-col items-start gap-1 px-4 py-1">
-        <h2 className="text-base font-bold">{Title}</h2>
-        <p className="text-xs text-gray-400">{movieYear(Type, Year)}</p>
+        <h2 className="text-base font-bold">{title}</h2>
+        <p className="text-xs text-gray-400">{movieYear(type, year)}</p>
         <Button
           className="mb-2 rounded bg-gray-100 text-blue-600"
           style="text"
