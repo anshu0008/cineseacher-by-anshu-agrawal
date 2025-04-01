@@ -1,3 +1,4 @@
+import { existsBy, removeBy } from "neetocist";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -7,10 +8,7 @@ const useHistoryItemsStore = create(
       historyCart: { data: [], id: 0 },
       pushToCart: (Title, imdbId) =>
         set(({ historyCart }) => {
-          const itemExists = historyCart.data.some(
-            item => item.imdbId === imdbId
-          );
-          //apply neetocist
+          const itemExists = existsBy({ imdbId }, historyCart.data);
 
           return {
             historyCart: itemExists
@@ -30,7 +28,7 @@ const useHistoryItemsStore = create(
       deleteFromCart: imdbId =>
         set(({ historyCart }) => ({
           historyCart: {
-            data: historyCart.data.filter(item => item.imdbId !== imdbId),
+            data: removeBy({ imdbId }, historyCart.data),
             id:
               historyCart.id === imdbId
                 ? historyCart.data[0].imdbId

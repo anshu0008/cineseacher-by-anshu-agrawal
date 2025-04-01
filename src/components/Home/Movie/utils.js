@@ -1,4 +1,4 @@
-import * as R from "ramda";
+import { either, isEmpty, isNil } from "ramda";
 
 export const fallbackImage = Poster => {
   if (Poster === "N/A") {
@@ -8,9 +8,9 @@ export const fallbackImage = Poster => {
   return Poster;
 };
 
-export const isEmptyOrUndefined = R.either(R.isEmpty, R.isNil);
+export const isEmptyOrUndefined = either(isEmpty, isNil);
 
-export const movieOtherDetails = (
+export const otherMovieDetails = (
   t,
   { Director, Actors, BoxOffice, Year, Runtime, Language, imdbRating }
 ) => ({
@@ -22,3 +22,6 @@ export const movieOtherDetails = (
   [t("movieModalData.language")]: Language,
   [t("movieModalData.rated")]: imdbRating,
 });
+
+export const movieYear = (Type, Year) =>
+  `${Type[0].toUpperCase() + Type.slice(1)} ${" • "} ${Year}`;

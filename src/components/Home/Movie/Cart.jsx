@@ -4,8 +4,8 @@ import { Button } from "neetoui";
 import { useTranslation } from "react-i18next";
 import useHistoryItemsStore from "stores/useHistoryItemsStore";
 
-import Details from "./Details/Details";
-import { fallbackImage } from "./utils";
+import Details from "./Details";
+import { fallbackImage, movieYear } from "./utils";
 
 const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -30,9 +30,7 @@ const MovieCart = ({ Title, Year, Poster, imdbID, Type }) => {
       </div>
       <div className="flex flex-col items-start gap-1 px-4 py-1">
         <h2 className="text-base font-bold">{Title}</h2>
-        <p className="text-xs text-gray-400">
-          {Type[0].toUpperCase() + Type.slice(1)} . {Year}
-        </p>
+        <p className="text-xs text-gray-400">{movieYear(Type, Year)}</p>
         <Button
           className="mb-2 rounded bg-gray-100 text-blue-600"
           style="text"

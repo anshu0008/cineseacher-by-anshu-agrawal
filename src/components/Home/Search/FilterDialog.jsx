@@ -6,13 +6,15 @@ import { useTranslation } from "react-i18next";
 
 import filterValidation from "./utils";
 
-const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
-  const [yearState, setYearState] = useState(null);
+const FilterDialog = ({ isOpen, onClose, updateQueryParams, year, type }) => {
+  const [yearState, setYearState] = useState(year || null);
 
   const [errorMessage, setErrorMessage] = useState(true);
 
-  const [filters, setFilters] = useState({ movie: true, series: true });
-
+  const [filters, setFilters] = useState(() => ({
+    movie: type !== "series",
+    series: type !== "movie",
+  }));
   const { t } = useTranslation();
 
   const currentYear = dayjs().year();
@@ -28,7 +30,7 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
       filters,
       currentYear,
     });
-    if (yearState > 1950 && yearState <= currentYear) {
+    if ((yearState > 1950 && yearState <= currentYear) || yearState === null) {
       setErrorMessage(false);
     } else {
       setErrorMessage(true);
@@ -55,6 +57,7 @@ const FilterDialog = ({ isOpen, onClose, updateQueryParams }) => {
           <Input
             placeholder={t("inputPlaceholder.year")}
             type="number"
+            value={yearState}
             onChange={({ target: { value } }) => setYearState(value)}
           />
           {errorMessage && (

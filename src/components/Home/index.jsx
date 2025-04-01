@@ -1,6 +1,6 @@
 import React from "react";
 
-import SpinnerComponent from "components/common/SpinnerComponent";
+import SpinnerWrapper from "components/common/SpinnerWrapper";
 import { useMovieFetch } from "hooks/reactQuery/useMoviesApi";
 import useFuncDebounce from "hooks/useFuncDebounce";
 import useQueryParams from "hooks/useQueryParams";
@@ -8,6 +8,7 @@ import { filterNonNull } from "neetocist";
 import { Pagination } from "neetoui";
 import { isEmpty } from "ramda";
 import { useHistory } from "react-router-dom";
+import { routes } from "src/route";
 import { buildUrl } from "utils/url";
 
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constant";
@@ -18,12 +19,11 @@ import SearchBar from "./Search/SearchBar";
 const Home = () => {
   const history = useHistory();
 
-  const { page, pageSize, searchTerm = "", year, type = "" } = useQueryParams();
+  const { page, searchTerm = "", year, type } = useQueryParams();
 
   const params = {
     searchTerm,
     page: Number(page) || DEFAULT_PAGE_INDEX,
-    pageSize: Number(pageSize) || DEFAULT_PAGE_SIZE,
     year: Number(year) || null,
     type: type || null,
   };
@@ -32,7 +32,7 @@ const Home = () => {
     useMovieFetch({
       s: searchTerm,
       page: Number(page) || DEFAULT_PAGE_INDEX,
-      pageSize: Number(pageSize) || DEFAULT_PAGE_SIZE,
+      pageSize: DEFAULT_PAGE_SIZE,
       y: Number(year) || null,
       type: type || null,
     });
@@ -40,7 +40,7 @@ const Home = () => {
   const handlePageNavigation = page =>
     history.replace(
       buildUrl(
-        "/movies",
+        routes.movies.index,
         filterNonNull({
           ...params,
           page,
@@ -56,8 +56,8 @@ const Home = () => {
 
     history.push(
       isEmpty(updatedParam.searchTerm)
-        ? buildUrl("/movies")
-        : buildUrl("/movies", filterNonNull(updatedParam))
+        ? buildUrl(routes.movies.index)
+        : buildUrl(routes.movies.index, filterNonNull(updatedParam))
     );
   });
 
@@ -68,10 +68,12 @@ const Home = () => {
           {...{
             searchTerm,
             updateQueryParams,
+            year,
+            type,
           }}
         />
         {isFetching || isEmpty(movies) ? (
-          <SpinnerComponent />
+          <SpinnerWrapper />
         ) : (
           <Movies Response={Response} movies={movies} />
         )}
@@ -80,7 +82,7 @@ const Home = () => {
             count={totalResults || 1}
             navigate={handlePageNavigation}
             pageNo={Number(page) || DEFAULT_PAGE_INDEX}
-            pageSize={Number(pageSize) || DEFAULT_PAGE_SIZE}
+            pageSize={DEFAULT_PAGE_SIZE}
           />
         </div>
       </div>

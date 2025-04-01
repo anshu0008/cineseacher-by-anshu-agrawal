@@ -1,19 +1,19 @@
 import React from "react";
 
-import { ShowEmptyData } from "components/common";
+import { NoData } from "components/common";
 import { isEmpty } from "ramda";
 import { Trans, useTranslation } from "react-i18next";
-import useFaovoriteItemsStore from "stores/useFaovoriteItemsStore";
+import useFavoriteItemsStore from "stores/useFaovoriteItemsStore";
 
 const FavoritePage = () => {
   const { t } = useTranslation();
 
-  const { favoriteCart } = useFaovoriteItemsStore();
+  const { favoriteCart } = useFavoriteItemsStore();
 
   if (isEmpty(favoriteCart)) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <ShowEmptyData description={t("title.emptyFavoriteStore")} />
+        <NoData description={t("title.emptyFavoriteStore")} />
       </div>
     );
   }
@@ -27,12 +27,12 @@ const FavoritePage = () => {
             key={index}
           >
             <h2 className="text-xl font-semibold">{Title}</h2>
-            <span className="ml-2 text-sm font-medium text-gray-300">
+            <span className="ml-2 text-sm font-medium text-gray-500">
               <Trans
                 i18nKey="favorite.rating"
                 values={{ value: Ratings }}
                 components={{
-                  span: <span className="text-sm text-gray-500" />,
+                  span: <span className="text-sm text-black" />,
                 }}
               />
             </span>

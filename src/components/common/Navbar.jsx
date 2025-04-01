@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import withT from "utils/withT";
 
-import { route } from "../../route";
+import { routes } from "../../route";
 
 const Navbar = () => {
   const { t } = useTranslation();
-  const location = useLocation().pathname;
+  const { pathname } = useLocation();
 
   return (
     <div className="flex h-16 w-full items-end justify-start gap-10 border-b border-gray-200 pb-2 pl-4">
@@ -19,17 +19,19 @@ const Navbar = () => {
       </div>
       <div className="mb-1 flex gap-6 font-semibold">
         <Link
-          className={location === "/movies" ? "text-blue-600" : "text-gray-600"}
-          to={route.movies.index}
+          to={routes.movies.index}
+          className={classNames({
+            "text-blue-600": pathname === routes.movies.index,
+            "text-gray-600": pathname !== routes.movies.index,
+          })}
         >
           {t("header.home")}
         </Link>
         <Link
-          to={route.movies.favorite}
+          to={routes.movies.favorite}
           className={classNames({
-            "text-blue-600": location === "/movies/favorite",
-            "text-gray-600": location !== "/movies/favorite",
-            relative: location !== "/movies/favorite",
+            "text-blue-600": pathname === routes.movies.favorite,
+            "relative text-gray-600": pathname !== routes.movies.favorite,
           })}
         >
           {t("header.favorite")}

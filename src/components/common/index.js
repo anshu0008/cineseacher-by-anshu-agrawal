@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
+import NoData from "./NoData";
 import PageNotFound from "./PageNotFound";
-import ShowEmptyData from "./ShowEmptyData";
-import SpinnerComponent from "./SpinnerComponent";
+import SpinnerWrapper from "./SpinnerWrapper";
 
-export { ShowEmptyData, SpinnerComponent, PageNotFound, Navbar };
+export { NoData, SpinnerWrapper, PageNotFound, Navbar };

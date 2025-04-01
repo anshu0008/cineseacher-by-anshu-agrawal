@@ -1,12 +1,15 @@
 import React from "react";
 
-import SpinnerComponent from "components/common/SpinnerComponent";
+import SpinnerWrapper from "components/common/SpinnerWrapper";
 import { genreSplit } from "components/Home/constant";
 import { useShowMovieDetails } from "hooks/reactQuery/useMoviesApi";
+import { existsBy } from "neetocist";
 import { Rating, RatingFilled } from "neetoicons";
 import { Button, Modal, Typography } from "neetoui";
-import { useTranslation } from "react-i18next";
-import useFaovoriteItemsStore from "stores/useFaovoriteItemsStore";
+import { Trans, useTranslation } from "react-i18next";
+import useFavoriteItemsStore from "stores/useFaovoriteItemsStore";
+
+import { otherMovieDetails } from "./utils";
 
 const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
   const { data, isLoading } = useShowMovieDetails({ i: imdbID });
@@ -29,16 +32,23 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
 
   const genre = genreSplit(Genre);
 
-  const { toggleFromCart, favoriteCart } = useFaovoriteItemsStore();
+  const { toggleFromCart, favoriteCart } = useFavoriteItemsStore();
 
-  const isFavorite = favoriteCart.some(item => item.imdbID === imdbID);
+  const isFavorite = existsBy({ imdbID }, favoriteCart);
 
   const handleCartClick = () => {
     toggleFromCart(Title, imdbRating, imdbID);
   };
 
-  const MOVIE_OTHER_DETAILS =
-    (t, { Director, Actors, BoxOffice, Year, Runtime, Language, imdbRating });
+  const OTHER_MOVIE_DETAILS = otherMovieDetails(t, {
+    Director,
+    Actors,
+    BoxOffice,
+    Year,
+    Runtime,
+    Language,
+    imdbRating,
+  });
 
   return (
     <Modal
@@ -47,7 +57,7 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
       onClose={() => setIsModalVisible(false)}
     >
       {isLoading ? (
-        <SpinnerComponent />
+        <SpinnerWrapper />
       ) : (
         <>
           <Modal.Header
@@ -93,10 +103,22 @@ const Details = ({ imdbID, setIsModalVisible, isModalVisible }) => {
               <div className="col-span-8">
                 <Typography className="italic text-gray-600">{Plot}</Typography>
                 <ul className="mt-4 space-y-2 text-sm">
-                  {Object.entries(MOVIE_OTHER_DETAILS).map(([text, value]) => (
-                    <li key={text}>
-                      <strong className="text-gray-800">{text}: </strong>
-                      {value}
+                  {Object.entries(OTHER_MOVIE_DETAILS).map(([text, value]) => (
+                    <li className="flex gap-1" key={text}>
+                      <Trans
+                        i18nKey="movie.movieData"
+                        values={{ text }}
+                        components={{
+                          typography: <strong className="text-gray-800" />,
+                        }}
+                      />
+                      <Trans
+                        i18nKey="movie.movieValue"
+                        values={{ value }}
+                        components={{
+                          typography: <p className="text-gray-800" />,
+                        }}
+                      />
                     </li>
                   ))}
                 </ul>

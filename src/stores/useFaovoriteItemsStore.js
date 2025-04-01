@@ -1,3 +1,4 @@
+import { existsBy, removeBy } from "neetocist";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -8,12 +9,11 @@ const useFavoriteItemsStore = create(
 
       toggleFromCart: (Title, Ratings, imdbID) =>
         set(({ favoriteCart }) => {
-          const itemExists = favoriteCart.some(item => item.imdbID === imdbID);
-          //implement using neetocist
+          const itemExists = existsBy({ imdbID }, favoriteCart);
 
           return {
             favoriteCart: itemExists
-              ? favoriteCart.filter(item => item.imdbID !== imdbID)
+              ? removeBy({ imdbID }, favoriteCart)
               : [...favoriteCart, { Title, Ratings, imdbID }],
           };
         }),
