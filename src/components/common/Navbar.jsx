@@ -2,7 +2,7 @@ import React from "react";
 
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import withT from "utils/withT";
 
 import { routes } from "../../route";
@@ -18,7 +18,7 @@ const Navbar = () => {
         <span className="text-black">{t("header.searcher")}</span>
       </div>
       <div className="mb-1 flex gap-6 font-semibold">
-        <Link
+        <NavLink
           to={routes.movies.index}
           className={classNames({
             "text-blue-600": pathname === routes.movies.index,
@@ -26,8 +26,8 @@ const Navbar = () => {
           })}
         >
           {t("header.home")}
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to={routes.movies.favorite}
           className={classNames({
             "text-blue-600": pathname === routes.movies.favorite,
@@ -35,7 +35,7 @@ const Navbar = () => {
           })}
         >
           {t("header.favorite")}
-        </Link>
+        </NavLink>
       </div>
     </div>
   );
